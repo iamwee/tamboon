@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/itemImageViewThumbnail"
+            android:id="@+id/imageViewCharityCover"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:adjustViewBounds="true"
@@ -29,7 +29,7 @@
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/itemTextViewName"
+            android:id="@+id/textViewCharityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itemImageViewThumbnail"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCharityCover"
             tools:text="@tools:sample/lorem/random" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
