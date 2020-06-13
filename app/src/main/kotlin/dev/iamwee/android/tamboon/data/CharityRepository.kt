@@ -9,8 +9,6 @@ class CharityRepository @Inject constructor(
     private val service: TamboonService
 ) {
 
-    fun getCharities() = flow {
-        emit(service.getCharities().map { it.asInfo })
-    }
+    suspend fun getCharities(): List<CharityInfo> = service.getCharities().map { it.asInfo }
 
 }

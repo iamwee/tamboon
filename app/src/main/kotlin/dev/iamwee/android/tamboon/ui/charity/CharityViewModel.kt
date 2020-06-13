@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import dev.iamwee.android.tamboon.data.CharityInfo
 import dev.iamwee.android.tamboon.data.CharityRepository
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 
 class CharityViewModel @ViewModelInject constructor(
     repository: CharityRepository,
@@ -14,7 +15,7 @@ class CharityViewModel @ViewModelInject constructor(
 
     private val _charities: MutableLiveData<Unit> = MutableLiveData()
     val charities: LiveData<List<CharityInfo>> = _charities.switchMap {
-        repository.getCharities()
+        flow { emit(repository.getCharities()) }
             .catch { _error.value = it }
             .asLiveData(viewModelScope.coroutineContext)
     }
