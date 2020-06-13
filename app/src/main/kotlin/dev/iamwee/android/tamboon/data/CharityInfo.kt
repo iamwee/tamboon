@@ -1,12 +1,15 @@
 package dev.iamwee.android.tamboon.data
 
+import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class CharityInfo(
     val id: Long,
     val name: String,
     val imageUrl: String
-) {
+): Parcelable {
 
     companion object {
         val DIFF_CALLBACK = object: DiffUtil.ItemCallback<CharityInfo>() {
