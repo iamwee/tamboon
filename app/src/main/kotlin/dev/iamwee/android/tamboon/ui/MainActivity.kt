@@ -8,9 +8,10 @@ import dev.iamwee.android.tamboon.R
 import dev.iamwee.android.tamboon.data.CharityInfo
 import dev.iamwee.android.tamboon.ui.charity.CharityListFragment
 import dev.iamwee.android.tamboon.ui.donation.DonationFragment
+import dev.iamwee.android.tamboon.ui.donation.succeeded.DonationSucceededActivity
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), CharityListFragment.Delegate {
+class MainActivity : AppCompatActivity(), CharityListFragment.Delegate, DonationFragment.Delegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity(), CharityListFragment.Delegate {
             .replace(R.id.fragmentContainer, DonationFragment.fromCharity(info))
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onDonateSucceeded(charity: CharityInfo, amount: Long) {
+        supportFragmentManager.popBackStack()
+        DonationSucceededActivity.launch(this, charity, amount)
     }
 
     override fun onBackPressed() {

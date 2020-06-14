@@ -73,15 +73,12 @@ class DonationFragment : Fragment(R.layout.fragment_donation) {
         viewModel.donateResult.observe(viewLifecycleOwner, Observer {
             buttonDonation.isEnabled = it !is Result.Loading
             when (it) {
-                is Result.Success -> {
-                    //TODO navigate to donate completed
-                }
-                is Result.Error -> {
-                    AlertDialog.Builder(requireContext())
+                is Result.Success -> (activity as? Delegate)?.onDonateSucceeded(charity, editTextDonationAmount.text.toString().toLong())
+                is Result.Error -> AlertDialog.Builder(requireContext())
                         .setMessage(it.throwable.errorMessage)
                         .setPositiveButton(android.R.string.ok, null)
                         .show()
-                }
+
             }
         })
     }
@@ -102,6 +99,10 @@ class DonationFragment : Fragment(R.layout.fragment_donation) {
             putExtra(CreditCardActivity.EXTRA_PKEY, BuildConfig.OMISE_PKEY)
         }
         startActivityForResult(intent, RC_CREDIT_CARD)
+    }
+
+    interface Delegate {
+        fun onDonateSucceeded(charity: CharityInfo, amount: Long)
     }
 
 }

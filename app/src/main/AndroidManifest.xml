@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name="co.omise.android.ui.CreditCardActivity" />
+        <activity android:name=".ui.donation.succeeded.DonationSucceededActivity" />
     </application>
 
 </manifest>
