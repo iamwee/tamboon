@@ -60,7 +60,7 @@ class DonationFragment : Fragment(R.layout.fragment_donation) {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val amount = s.toString().toLongOrNull() ?: 0
-                buttonDonation.isEnabled = amount > 0
+                buttonDonation.isEnabled = amount >= 20
                 buttonDonation.text = if (amount > 0) {
                     getString(R.string.button_donation, formatter.format(amount))
                 } else {
