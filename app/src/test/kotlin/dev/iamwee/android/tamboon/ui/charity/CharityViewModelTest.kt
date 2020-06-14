@@ -45,7 +45,7 @@ class CharityViewModelTest {
     }
 
     @Test
-    fun testWhenGotAtError() = coroutineTestRule.runBlocking {
+    fun testWhenGotAnError() = coroutineTestRule.runBlocking {
         val errorMessageExpected = "Error message for test exception."
         val service = mockk<TamboonService>()
 

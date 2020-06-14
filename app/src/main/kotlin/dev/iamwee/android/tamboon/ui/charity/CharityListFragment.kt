@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.iamwee.android.tamboon.R
+import dev.iamwee.android.tamboon.data.CharityInfo
 import dev.iamwee.android.tamboon.extensions.errorMessage
 import kotlinx.android.synthetic.main.fragment_charity_list.*
 
@@ -17,7 +18,9 @@ class CharityListFragment : Fragment(R.layout.fragment_charity_list) {
     private val viewModel: CharityViewModel by viewModels()
 
     private val adapter by lazy {
-        CharityListAdapter()
+        CharityListAdapter {
+            (activity as? Delegate)?.onCharityClicked(it)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +43,10 @@ class CharityListFragment : Fragment(R.layout.fragment_charity_list) {
         viewModel.error.observe(viewLifecycleOwner, Observer {
             Snackbar.make(view, it.errorMessage, Snackbar.LENGTH_LONG).show()
         })
+    }
+
+    interface Delegate {
+        fun onCharityClicked(info: CharityInfo)
     }
 
 }
