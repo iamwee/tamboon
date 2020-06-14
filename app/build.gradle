@@ -24,6 +24,13 @@ android {
         }
     }
 
+    buildTypes.all {
+        def keyFile = file("key.properties")
+        def keyProperties = new Properties()
+        keyProperties.load(new FileInputStream(keyFile))
+        it.buildConfigField "String", "OMISE_PKEY", "\"${keyProperties['OMISE_PKEY']}\""
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
@@ -69,6 +76,8 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:4.11.0"
     kapt "com.github.bumptech.glide:compiler:4.11.0"
+
+    implementation "co.omise:omise-android:2.6.5"
 
     testImplementation 'junit:junit:4.13'
     testImplementation "io.mockk:mockk:1.9.3"

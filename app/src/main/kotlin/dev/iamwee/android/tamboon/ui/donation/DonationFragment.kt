@@ -1,12 +1,18 @@
 package dev.iamwee.android.tamboon.ui.donation
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import co.omise.android.models.Token
+import co.omise.android.ui.CreditCardActivity
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import dev.iamwee.android.tamboon.BuildConfig
 import dev.iamwee.android.tamboon.R
 import dev.iamwee.android.tamboon.data.CharityInfo
 import kotlinx.android.synthetic.main.fragment_donation.*
@@ -16,6 +22,7 @@ import java.text.DecimalFormat
 class DonationFragment : Fragment(R.layout.fragment_donation) {
 
     companion object {
+        private const val RC_CREDIT_CARD = 123
         private const val ARGS_CHARITY = "dev.iamwee.android.tamboon.ui.donation.ARGS_CHARITY"
 
         fun fromCharity(charity: CharityInfo) = DonationFragment().apply {
@@ -58,8 +65,22 @@ class DonationFragment : Fragment(R.layout.fragment_donation) {
         buttonDonation.setOnClickListener(::launchCreditCardActivity)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RC_CREDIT_CARD && resultCode == Activity.RESULT_OK) {
+            val token = data?.getParcelableExtra<Token>(CreditCardActivity.EXTRA_TOKEN_OBJECT) ?: return
+            val amountSatang = editTextDonationAmount.text.toString().toLong().times(100)
+            Log.d("DonationFragment", "token=${token.card}, amount=$amountSatang")
+            //TODO perform donate
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     private fun launchCreditCardActivity(view: View) {
-        //TODO launch credit card selection activity
+        val intent = Intent(requireContext(), CreditCardActivity::class.java).apply {
+            putExtra(CreditCardActivity.EXTRA_PKEY, BuildConfig.OMISE_PKEY)
+        }
+        startActivityForResult(intent, RC_CREDIT_CARD)
     }
 
 }
